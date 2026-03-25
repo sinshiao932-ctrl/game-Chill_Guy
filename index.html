@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ai Là Người?</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="bg-noise"></div>
+
+  <main class="app">
+    <!-- Màn hình bắt đầu -->
+    <section id="start-screen" class="screen panel">
+      <div class="title-wrap">
+        <p class="eyebrow">Khu trú ẩn - Ca kiểm tra đêm</p>
+        <h1>Ai Là Người?</h1>
+      </div>
+
+      <p class="intro-text">
+        Bạn phụ trách kiểm tra những người được đưa vào khu trú ẩn trong ca đêm.
+        Có người thật sự cần được cứu. Cũng có kẻ không còn là con người.
+        Ngoài ra còn có những người cố tình làm mình trông giống quỷ để tự vệ hoặc dọa người khác.
+      </p>
+
+      <div class="start-actions">
+        <button id="start-btn" class="btn btn-primary">Bắt đầu chơi</button>
+        <button id="guide-btn" class="btn btn-secondary">Hướng dẫn</button>
+      </div>
+    </section>
+
+    <!-- Màn hình chơi -->
+    <section id="game-screen" class="screen panel hidden">
+      <header class="hud">
+        <div class="hud-item">
+          <span class="hud-label">Điểm</span>
+          <strong id="score-value">0</strong>
+        </div>
+
+        <div class="hud-item">
+          <span class="hud-label">Chặng</span>
+          <strong id="level-value">1</strong>
+        </div>
+
+        <div class="hud-item">
+          <span class="hud-label">Tim</span>
+          <strong id="lives-value" class="hearts">❤️❤️❤️</strong>
+        </div>
+
+        <div class="hud-item">
+          <span class="hud-label">Xu</span>
+          <strong id="coins-value">0</strong>
+        </div>
+      </header>
+
+      <div class="toolbar">
+        <button id="shop-btn" class="btn btn-secondary toolbar-btn">🛒 Shop</button>
+      </div>
+
+      <div id="timer-wrap" class="timer-wrap">
+        <div class="timer-top">
+          <span id="timer-label">Thời gian quyết định</span>
+          <strong id="timer-text">30s</strong>
+        </div>
+        <div class="timer-bar">
+          <div id="timer-fill" class="timer-fill"></div>
+        </div>
+      </div>
+
+      <p id="story-line" class="story-line"></p>
+
+      <article id="character-card" class="character-card">
+        <div class="card-head">
+          <div class="avatar" aria-hidden="true">
+            <span id="avatar-icon">◉</span>
+          </div>
+
+          <div class="profile-text">
+            <h2 id="character-name">Tên nhân vật</h2>
+            <p id="character-meta">0 tuổi • Vai trò</p>
+          </div>
+        </div>
+
+        <div class="clue-box">
+          <h3>Dấu hiệu quan sát</h3>
+          <ul id="clue-list" class="clue-list"></ul>
+        </div>
+      </article>
+
+      <div class="decision-actions">
+        <button id="human-btn" class="btn decision-btn human-btn">Đây là Người</button>
+        <button id="monster-btn" class="btn decision-btn monster-btn">Đây là Quái vật</button>
+        <button id="fake-monster-btn" class="btn decision-btn fake-monster-btn">Đây là Người giả quỷ</button>
+      </div>
+
+      <div id="feedback" class="feedback" aria-live="polite"></div>
+    </section>
+
+    <!-- Màn hình thông báo chặng -->
+    <section id="message-screen" class="screen panel hidden">
+      <p id="message-subtitle" class="eyebrow"></p>
+      <h2 id="message-title">Tiêu đề</h2>
+      <p id="message-text" class="message-text"></p>
+
+      <div id="message-stats" class="message-stats"></div>
+
+      <button id="message-btn" class="btn btn-primary">Tiếp tục</button>
+    </section>
+  </main>
+
+  <!-- Popup hướng dẫn -->
+  <div id="guide-modal" class="modal hidden" aria-hidden="true">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h2>Hướng dẫn</h2>
+        <button id="close-guide-btn" class="icon-btn" aria-label="Đóng hướng dẫn">✕</button>
+      </div>
+
+      <div class="guide-content">
+        <p>
+          Mỗi hồ sơ gồm tên, tuổi, vai trò và các dấu hiệu quan sát. Bạn cần đọc nhanh,
+          so sánh phản ứng, rồi quyết định đó là người, quái vật, hay người đang cố giả quỷ.
+        </p>
+
+        <ul>
+          <li>Chọn đúng: <strong>+1 điểm</strong>.</li>
+          <li>Chọn sai hoặc hết giờ: <strong>mất 1 tim</strong>.</li>
+          <li>Bạn có tổng cộng <strong>3 tim</strong>.</li>
+          <li>Mỗi <strong>chặng có 5 hồ sơ</strong>.</li>
+          <li><strong>Chặng 1:</strong> 30 giây.</li>
+          <li><strong>Chặng 2:</strong> 25 giây.</li>
+          <li><strong>Chặng 3:</strong> 20 giây.</li>
+          <li><strong>Từ chặng 4 trở đi:</strong> 15 giây.</li>
+          <li>Qua mỗi chặng bạn nhận <strong>1 xu</strong>.</li>
+          <li>Mở <strong>Shop</strong> sẽ tạm dừng game.</li>
+          <li>Item đầu tiên: <strong>+1 tim / 1 xu</strong>, chỉ mua <strong>1 lần mỗi chặng</strong>.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Popup shop -->
+  <div id="shop-modal" class="modal hidden" aria-hidden="true">
+    <div class="modal-card shop-card">
+      <div class="modal-head">
+        <h2>Shop</h2>
+        <button id="close-shop-btn" class="icon-btn" aria-label="Đóng shop">✕</button>
+      </div>
+
+      <div class="shop-summary">
+        <div class="shop-chip">Xu hiện có: <strong id="shop-coins-value">0</strong></div>
+        <div class="shop-chip">Chặng hiện tại: <strong id="shop-stage-value">1</strong></div>
+      </div>
+
+      <div class="shop-item">
+        <div class="shop-item-info">
+          <h3>Tim bổ sung</h3>
+          <p>+1 tim ngay lập tức.</p>
+          <p>Giá: <strong>1 xu</strong></p>
+          <p>Giới hạn: <strong>1 lần / chặng</strong></p>
+        </div>
+
+        <button id="buy-heart-btn" class="btn btn-primary">Mua tim</button>
+      </div>
+
+      <p id="shop-status" class="shop-status"></p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
